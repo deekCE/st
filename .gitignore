@@ -1,0 +1,4 @@
+# Ignores unnecessary files
+*.o
+/st
+/config.def.h
