@@ -1,4 +1,4 @@
-# stCE - simple terminal
+# st - simple terminal
 *deekCE's fork of suckless' st.*
 
 st is a simple terminal emulator for X which sucks less.
