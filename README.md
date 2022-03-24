@@ -1,2 +1,2 @@
 # stCE
-deekCE's fork of st.
+deekCE's fork of suckless' st.
