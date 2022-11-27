@@ -4,3 +4,4 @@
 *.o
 /st
 /config.h
+/st.desktop

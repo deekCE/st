@@ -5,8 +5,14 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
-static int borderpx = 2;
+static char *font = "Meslo LG M:pixelsize=16:antialias=true:autohint=true";
+/* Spare fonts */
+static char *font2[] = {
+    "Noto Color Emoji:pixelsize=16:antialias=true:autohint=true",
+    "Material Design Icons:pixelsize=16:antialias=true:autohint=true",
+};
+
+static int borderpx = 7;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -74,7 +80,7 @@ static unsigned int cursorthickness = 2;
 static int bellvolume = 0;
 
 /* default TERM value */
-char *termname = "st-256color";
+char *termname = "xterm-256color";
 
 /*
  * spaces per tab
@@ -91,37 +97,31 @@ char *termname = "st-256color";
  *
  *	stty tabs
  */
-unsigned int tabspaces = 8;
+unsigned int tabspaces = 4;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
+    /* Consola */
+
 	/* 8 normal colors */
-	"black",
-	"red3",
-	"green3",
-	"yellow3",
-	"blue2",
-	"magenta3",
-	"cyan3",
-	"gray90",
+	"#000000",    /*  0: black1  */
+	"#d70000",    /*  1: red     */
+	"#87af00",    /*  2: green   */
+	"#d7af00",    /*  3: yellow  */
+	"#0087d7",    /*  4: blue    */
+	"#d70087",    /*  5: magenta */
+	"#00af87",    /*  6: cyan    */
+	"#e4e4e4",    /*  7: white1  */
 
 	/* 8 bright colors */
-	"gray50",
-	"red",
-	"green",
-	"yellow",
-	"#5c5cff",
-	"magenta",
-	"cyan",
-	"white",
-
-	[255] = 0,
-
-	/* more colors can be added after 255 to use with DefaultXX */
-	"#cccccc",
-	"#555555",
-	"gray90", /* default foreground colour */
-	"black", /* default background colour */
+	"#262626",    /*  8: black2  */
+	"#d75f00",    /*  9: orange  */
+	"#6c6c6c",    /* 10: base1   */
+	"#767676",    /* 11: base2   */
+	"#949494",    /* 12: base3   */
+	"#875fd7",    /* 13: purple  */
+	"#9e9e9e",    /* 14: base4   */
+	"#ffffff",    /* 15: white2  */
 };
 
 
@@ -129,19 +129,33 @@ static const char *colorname[] = {
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 258;
-unsigned int defaultbg = 259;
-unsigned int defaultcs = 256;
-static unsigned int defaultrcs = 257;
+unsigned int defaultfg = 7;
+unsigned int defaultbg = 0;
+unsigned int defaultcs = 7;
+static unsigned int defaultrcs = 0;
 
 /*
- * Default shape of cursor
- * 2: Block ("█")
- * 4: Underline ("_")
- * 6: Bar ("|")
- * 7: Snowman ("☃")
+ * Default width and height (including borders!)
  */
-static unsigned int cursorshape = 2;
+
+static unsigned int width = 564;
+static unsigned int height = 364;
+
+/*
+ * https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h4-Functions-using-CSI-_-ordered-by-the-final-character-lparen-s-rparen:CSI-Ps-SP-q.1D81
+ * Default style of cursor
+ * 0: blinking block
+ * 1: blinking block (default)
+ * 2: steady block ("█")
+ * 3: blinking underline
+ * 4: steady underline ("_")
+ * 5: blinking bar
+ * 6: steady bar ("|")
+ * 7: blinking st cursor
+ * 8: steady st cursor
+ */
+static unsigned int cursorstyle = 1;
+static Rune stcursor = 0x2603; /* snowman ("☃") */
 
 /*
  * Default columns and rows numbers
@@ -176,6 +190,8 @@ static uint forcemousemod = ShiftMask;
  */
 static MouseShortcut mshortcuts[] = {
 	/* mask                 button   function        argument       release */
+	{ XK_ANY_MOD,           Button4, kscrollup,      {.i = 1} },
+	{ XK_ANY_MOD,           Button5, kscrolldown,    {.i = 1} },
 	{ XK_ANY_MOD,           Button2, selpaste,       {.i = 0},      1 },
 	{ ShiftMask,            Button4, ttysend,        {.s = "\033[5;2~"} },
 	{ XK_ANY_MOD,           Button4, ttysend,        {.s = "\031"} },
@@ -201,6 +217,9 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
+    { MODKEY|ShiftMask,     XK_C,           newterm,        {.i =  0} },
+	{ TERMMOD,              XK_K,           kscrollup,      {.i = +2} },
+	{ TERMMOD,              XK_J,           kscrolldown,    {.i = +2} },
 };
 
 /*
