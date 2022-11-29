@@ -9,7 +9,7 @@ static char *font = "Meslo LG M:pixelsize=16:antialias=true:autohint=true";
 /* Spare fonts */
 static char *font2[] = {
     "Noto Color Emoji:pixelsize=16:antialias=true:autohint=true",
-    "Material Design Icons:pixelsize=16:antialias=true:autohint=true",
+    "Material Design Icons Desktop:pixelsize=16:antialias=true:autohint=true",
 };
 
 static int borderpx = 7;
