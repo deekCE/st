@@ -27,7 +27,6 @@ See the man page for additional details.
 
 ## Patches
 * anysize
-* blinking cursor
 * bold is not bright
 * desktopentry
 * font2
